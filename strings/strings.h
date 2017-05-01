@@ -3,7 +3,7 @@
 
 size_t slen(const char *str);
 
-char *stok(const char *str, const char *delim);
+char *stok(char *str, const char *delim);
 
 int sspn(const char *str, const char *substr);
 
