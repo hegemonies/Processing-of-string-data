@@ -15,13 +15,6 @@ size_t slen(const char *str)
 	}
 	return count;
 }
-/*
-char *_stok(char *s, const char *delim, char **last)
-{
-
-}
-*/
-//static char *lt = NULL;
 
 char *stok(char *str, const char *delim)
 {
@@ -42,9 +35,20 @@ char *stok(char *str, const char *delim)
 	return str;
 }
 
-/*
-int sspn(const char *str, const char *substr);
 
+int sspn(const char *str, const char *substr)
+{
+	int count = 0;
+	for (int i = 0; str[i] != 0; i++) {
+		if (str[i] == substr[i]) {
+			count++;
+		} else {
+			return count;
+		}
+	}
+	return 0;
+}
+/*
 int scmp(const char *mstr, const char *cpstr);
 
 char *scpy(const char *des, const char *src);

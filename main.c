@@ -4,6 +4,7 @@
 
 int main(void)
 {
+	/*
 	char str[] = "This;is.a:test:of=the/string\\tokenizer-function.";
 	printf("\n%s\n", str);
 	char *str_tmp;
@@ -11,5 +12,10 @@ int main(void)
 	for (str_tmp = stok(str, "\\./:;=-"); str_tmp != NULL; str_tmp = stok(NULL, "\\./:;=-")) {
 		printf("\n%s\n", str_tmp);
 	}
-	
+	*/
+	char str[] = "12 year";
+	char substr[] = "123456";
+
+	int num = sspn(str, substr);
+	printf("%d\n", num);
 }
