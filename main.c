@@ -1,14 +1,15 @@
 #include <stdio.h>
 #include "strings.h"
+#include <string.h>
 
 int main(void)
 {
-	char *str = "Hello World";
-	//int len = slen(str);
-	//printf("slen: %d\n", len);
+	char str[] = "This;is.a:test:of=the/string\\tokenizer-function.";
+	printf("\n%s\n", str);
 	char *str_tmp;
-	for (str_tmp = stok(str, " ");str_tmp; str_tmp = stok(NULL, " ")) {
-		printf("%s\n", str_tmp);
+	//str_tmp = stok(str, " ");
+	for (str_tmp = stok(str, "\\./:;=-"); str_tmp != NULL; str_tmp = stok(NULL, "\\./:;=-")) {
+		printf("\n%s\n", str_tmp);
 	}
 	
 }

@@ -15,46 +15,31 @@ size_t slen(const char *str)
 	}
 	return count;
 }
-
+/*
 char *_stok(char *s, const char *delim, char **last)
 {
-	char *spanp, *tok;
-	int c, sc;
 
-	if (s == NULL && (s = *last) == NULL)
-		return (NULL);
-cont:
-	c = *s++;
-	for (spanp = (char *)delim; (sc = *spanp++) != 0;) {
-		if (c == sc)
-			goto cont;
-	}
-
-	if (c == 0) {
-		*last = NULL;
-		return (NULL);
-	}
-	tok = s - 1;
-	for (;;) {
-		c = *s++;
-		spanp = (char *)delim;
-		do {
-			if ((sc = *spanp++) == c) {
-				if (c == 0)
-					s = NULL;
-				else
-					s[-1] = '\0';
-				*last = s;
-				return (tok);
-			}
-		} while (sc != 0);
-	}
 }
+*/
+//static char *lt = NULL;
 
 char *stok(char *str, const char *delim)
 {
-	char *last;
-	return (_stok(str, delim, &last));
+	static char *lt;
+	if (str != NULL) {
+		lt = str;
+	}
+	for (int i = 0; lt[i] != 0; i++) {
+		for (int j = 0; delim[j] != 0; j++) {
+			if (lt[i] == delim[j]) {
+				lt[i] = 0;
+				str = lt;
+				lt = lt + i + 1;
+				return str;
+			}
+		}
+	}
+	return str;
 }
 
 /*
