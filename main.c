@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include "strings.h"
-#include <string.h>
+//#include <string.h>
 
 int main(void)
 {
@@ -13,9 +13,8 @@ int main(void)
 		printf("\n%s\n", str_tmp);
 	}
 	*/
-	char str[] = "12 year";
-	char substr[] = "123456";
-
-	int num = sspn(str, substr);
-	printf("%d\n", num);
+	char str[] = "abd";
+	char strc[20];
+	scpy(strc, str);
+	printf("%s\n", strc);
 }

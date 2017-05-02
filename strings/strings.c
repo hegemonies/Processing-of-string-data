@@ -48,8 +48,32 @@ int sspn(const char *str, const char *substr)
 	}
 	return 0;
 }
-/*
-int scmp(const char *mstr, const char *cpstr);
 
-char *scpy(const char *des, const char *src);
-*/
+int scmp(const char *str, const char *strc)
+{
+	int ncount = 0, pcount = 0;
+	for (int i = 0; str[i] != 0; i++) {
+		if (str[i] < strc[i]) {
+			ncount++;
+		} else if (str[i] > strc[i]) {
+			pcount++;
+		}
+	}
+	if (ncount < pcount) {
+		return pcount;
+	} else if (ncount > pcount) {
+		return -ncount;
+	}
+	return 0;
+}
+
+char *scpy(char *des, const char *src)
+{
+	des = malloc(sizeof(src) + 1);
+	int i;
+	for (i = 0; src[i]; i++) {
+		des[i] = src[i];
+	}
+	des[i + 1] = '\0';
+	return des;
+}

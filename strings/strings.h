@@ -9,6 +9,6 @@ int sspn(const char *str, const char *substr);
 
 int scmp(const char *mstr, const char *cpstr);
 
-char *scpy(const char *des, const char *src);
+char *scpy(char *des, const char *src);
 
 #endif
