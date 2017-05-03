@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "strings.h"
 //#include <string.h>
 
@@ -14,7 +15,7 @@ int main(void)
 	}
 	*/
 	char str[] = "abd";
-	char strc[20];
+	char strc[10];
 	scpy(strc, str);
 	printf("%s\n", strc);
 }

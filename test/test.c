@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 
 int gg(char *str, char *strc)
 {
@@ -20,8 +21,11 @@ int gg(char *str, char *strc)
 
 int main(void)
 {
+	/*
 	char str[] = "abd";
 	char strc[] = "abc";
 	
 	printf("%d\n", gg(str, strc));
+	*/
+	printf("%d\n", strlen(" "));
 }

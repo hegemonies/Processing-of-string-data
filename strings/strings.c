@@ -2,11 +2,10 @@
 #include <stdlib.h>
 #include "strings.h"
 #include <stdint.h>
-#include <sys/types.h>
 
 size_t slen(const char *str)
 {
-	if (str[0] == '\0' || str[0] == '\n') {
+	if (str[0] == '\0') {
 		return 0;
 	}
 	int count;
@@ -69,9 +68,8 @@ int scmp(const char *str, const char *strc)
 
 char *scpy(char *des, const char *src)
 {
-	des = malloc(sizeof(src) + 1);
 	int i;
-	for (i = 0; src[i]; i++) {
+	for (i = 0; src[i] != 0; i++) {
 		des[i] = src[i];
 	}
 	des[i + 1] = '\0';
