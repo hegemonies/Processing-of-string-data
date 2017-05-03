@@ -4,15 +4,19 @@
 
 char *input(char *path)
 {
+	char tmp[260];
 	printf("path: ");
-	scanf("%s", path);
+	fgets(tmp, 260, stdin);
+	printf("slen: %d\n", slen(tmp));
+	path = realloc(path, slen(tmp));
+	scpy(path, tmp);
 	return path;
 }
 
-int main(int argc, char *argv[])
+int main()
 {
-	char path[260];
-	input(path);
-	printf("%s :: %s\n", path, delim);
+	char *path = malloc(sizeof(char*));
+	path = input(path);
+	printf("%s", path);
 	return 0;
 }

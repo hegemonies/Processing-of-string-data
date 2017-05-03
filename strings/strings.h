@@ -1,7 +1,7 @@
 #ifndef STRINGS_H
 #define STRINGS_H
 
-size_t slen(const char *str);
+int slen(const char *str);
 
 char *stok(char *str, const char *delim);
 

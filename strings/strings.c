@@ -3,13 +3,17 @@
 #include "strings.h"
 #include <stdint.h>
 
-size_t slen(const char *str)
+int slen(const char *str)
 {
 	if (str[0] == '\0') {
 		return 0;
 	}
 	int count;
-	for (int i = 0; str[i] != '\0'; i++) {
+	int i;
+	for (i = 0; str[i] != '\0' || str[i] != '\n'; i++) {
+		count++;
+	}
+	if (str[i] == '\n') {
 		count++;
 	}
 	return count;
