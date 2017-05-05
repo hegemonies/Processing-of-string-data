@@ -39,7 +39,7 @@ char *stok(char *str, const char *delim)
 }
 
 
-int sspn(const char *str, const char *substr)
+int sspn(char *str, const char *substr)
 {
 	int count = 0;
 	for (int i = 0; str[i] != 0; i++) {
@@ -76,6 +76,43 @@ char *scpy(char *des, const char *src)
 	for (i = 0; src[i] != 0; i++) {
 		des[i] = src[i];
 	}
-	des[i + 1] = '\0';
+	des[i] = 0;
 	return des;
+}
+
+char *scat(char *des, const char *src)
+{
+	int j = slen(des);
+	for (int i = 0; src[i] != 0; i++) {
+		des[j] = src[i];
+		j++;
+	}
+	des[j] = 0;
+	return des;
+}
+
+char *sstr(char *string1, const char *string2)
+{
+	char *strptr = string1;
+	int j = 0;
+	for (int i = 0; string1[i] != 0; i++) {
+		if (string2[j] == 0) {
+			return strptr;
+		}
+		if (string1[i] != string2[j]) {
+			j = 0;
+			continue;
+		}
+		if (string1[i] == string2[j]) {
+			if (j == 0) {
+				strptr = string1 + i;
+			}
+			j++;
+		}
+	}
+	if (string2[j] == 0) {
+		return strptr;
+	} else {
+		return NULL;
+	}
 }
