@@ -1,7 +1,7 @@
 #ifndef STRINGS_H
 #define STRINGS_H
 
-int slen(const char *str);
+int slen(char *str);
 
 char *stok(char *str, const char *delim);
 
@@ -13,6 +13,6 @@ char *scpy(char *des, const char *src);
 
 char *scat(char *des, const char *src);
 
-char *sstr(char *string1, const char *string2);
+char *sstr(const char *str1,  const char *str2, int slen);
 
 #endif

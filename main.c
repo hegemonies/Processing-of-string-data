@@ -46,33 +46,49 @@ int check(char *path)
 int check(char *path, char *delim)
 {
 	char *str_tmp;
-	for (str_tmp = stok(str, delim); str_tmp != NULL; str_tmp = stok(NULL, delim)) {
+	for (str_tmp = stok(path, delim); str_tmp != NULL; str_tmp = stok(NULL, delim)) {
+		printf("зашли :: 50\n");
 		if (slen(path) >= MAX_PATH) {//len?
+			printf("зашли :: 52\n");
 			return 3;
 		}
-		char *ch = sstr(path, ":\\"); //windows?
+		printf("зашли :: 55\n");
+		char *ch = sstr(path, ":\\", slen(path)); //windows?
+		printf("%s\n", ch);
 		if (ch - path) {
+			printf("зашли :: 57\n");
 			if (sspn(path, "*?<\">/|")) {
+				printf("зашли :: 59\n");
 				return 1;
 			}
-			if ((ch = sstr(path, ":"))) {
-				if (ch[1] != 92) {//92 == "\\"
+			printf("%s\n", ch = sstr(path, ":", slen(path)));
+			if ((ch = sstr(path, ":", slen(path)))) {
+				printf("%s\n", ch);
+				printf("зашли :: 63\n");
+				if (ch[1] != 92 && isalpha(ch - path)) {//92 == "\\"
+					printf("зашли :: 65\n");
 					return 1;
 				}
 			}
-		} else if (((ch = sstr(path, "/")) - path) >= 0) {//linux?
+		} else if (((ch = sstr(path, "/", slen(path))) - path) >= 0) {//linux?
+			printf("зашли :: 70\n");
 			if (sspn(path, "*?:\\<\">|")) {
+				printf("зашли :: 72\n");
 				return 2;
 			}
 		}
-		return 0;
 	}	
+	printf("зашли :: 77\n");
+	return 0;
 }
 
 // 0 - good, 1 - trable windows, 2 - trable linux, 3 - problam with len of path
 void check_input(int n)
 {
 	switch (n) {
+		case 0:
+			printf("OK\n");
+			break;
 		case 1:
 			printf("Problem in the way Windows.\n");
 			break;
@@ -91,6 +107,8 @@ int main()
 	char *delim = malloc(sizeof(char) * 3);
 
 	input(path, delim);
-	check_input(check(path));
+	//check_input(check(path, delim));
+	char *ch = sstr(path, ":\\", slen(path));
+	printf("%s\n", ch);
 	return 0;
 }

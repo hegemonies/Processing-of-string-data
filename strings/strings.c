@@ -2,21 +2,15 @@
 #include <stdlib.h>
 #include "strings.h"
 #include <stdint.h>
+#include <string.h>
 
-int slen(const char *str)
+int slen(char *str)
 {
-	if (str[0] == '\0') {
-		return 0;
-	}
-	int count;
-	int i;
-	for (i = 0; str[i] != '\0' || str[i] != '\n'; i++) {
+	int count = 0;;
+	for (int i = 0; str[i] != '\0'; i++) {
 		count++;
 	}
-	if (str[i] == '\n') {
-		count++;
-	}
-	return count;
+	return count++;
 }
 
 char *stok(char *str, const char *delim)
@@ -90,7 +84,7 @@ char *scat(char *des, const char *src)
 	des[j] = 0;
 	return des;
 }
-
+/*
 char *sstr(char *string1, const char *string2)
 {
 	char *strptr = string1;
@@ -115,4 +109,73 @@ char *sstr(char *string1, const char *string2)
 	} else {
 		return NULL;
 	}
+}
+*/
+
+char *sstr(const char *str1,  const char *str2, int slen){
+    unsigned char max_len = 140;
+    if ( !*str2 )
+        return((char *)str1);
+    //Очистка массивов
+    unsigned char index_header_first[256];
+    unsigned char index_header_end[256];
+    unsigned char last_char[256];
+    unsigned char sorted_index[256];
+    memset(index_header_first,0x00,sizeof(unsigned char)*256);
+    memset(index_header_end,0x00,sizeof(unsigned char)*256);
+    memset(last_char,0x00,sizeof(unsigned char)*256);
+    memset(sorted_index,0x00,sizeof(unsigned char)*256);
+    //Этап 1.
+    char *cp2 = (char*)str2;
+    unsigned char v;
+    unsigned int len =0;
+    unsigned char current_ind = 1;
+    while((v=*cp2) && (len<max_len)){
+        if(index_header_first[v] == 0){
+            index_header_first[v] = current_ind;
+            index_header_end[v] = current_ind;
+            sorted_index[current_ind] = len;
+        }
+        else{
+            unsigned char last_ind = index_header_end[v];
+            last_char[current_ind] = last_ind;
+            index_header_end[v] = current_ind;
+            sorted_index[current_ind] = len;
+        }
+        current_ind++;
+        len++;
+        cp2++;
+    }
+    if(len > slen){
+        return NULL;
+    }
+    //Этап 2.
+    unsigned char *s1, *s2;
+    //Начинаем проверку с элемента S+pl-1
+    unsigned char *cp = (unsigned char *) str1+(len-1);
+    unsigned char *cp_end= cp+slen;
+    while (cp<cp_end){
+        unsigned char ind = *cp;
+        //Если выбранный элемент есть в строке P
+        if( (ind = index_header_end[ind]) ) {
+            do{
+                //Тогда проверяем все возможные варианты с участием этой буквы
+                unsigned char pos_in_len = sorted_index[ind];
+                s1 = cp - pos_in_len;
+                if((char*)s1>=str1)
+                {
+                    //Сравниваем строки
+                    s2 = (unsigned char*)str2;
+                    while ( *s2 && !(*s1^*s2) )
+                        s1++, s2++;
+                    if (!*s2)
+                        return (char*)(cp-pos_in_len);
+                }
+            }
+            while( (ind = last_char[ind]) );
+        }
+        //Прыгаем вперёд на pl
+        cp+=len;
+    }
+    return(NULL);
 }
