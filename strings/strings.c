@@ -12,10 +12,72 @@ int slen(char *str)
 	}
 	return count++;
 }
+/*
+char *stok(char *str, const char *delim)
+{
+	static const char *lt;
+	static char *lt_tmp = lt;
+	if (str != NULL) {
+		lt = str;
+		if (lt_tmp == NULL) {
+			lt_tmp = lt;
+		}
+	}
+	
+	if (sspn(lt_tmp, str)) {
+		for (int i = 0; lt_tmp[i] != 0; i++) {
+			for (int j = 0; delim[j] != 0; j++) {
+				if (lt_tmp[i] == delim[j]) {
+					lt_tmp[i] = 0;
+					str = lt_tmp;
+					lt_tmp = lt_tmp + i + 1;
+					return str;
+				}
+			}
+		}
+	} else {
+		for (int i = 0; lt[i] != 0; i++) {
+			for (int j = 0; delim[j] != 0; j++) {
+				if (lt[i] == delim[j]) {
+					lt[i] = 0;
+					str = lt;
+					lt = lt + i + 1;
+					return str;
+				}
+			}
+		}
+	}
+	
+	char *buf;
+	int k = sspn(lt_tmp, str);
+	if (k) {
+		buf = lt_tmp;
+	} else {
+		buf = lt;
+	}
+	for (int i = 0; lt[i] != 0; i++) {
+		for (int j = 0; delim[j] != 0; j++) {
+			if (buf[i] == delim[j]) {
+				buf[i] = 0;
+				str = buf;
+				buf = buf + i + 1;
+				if (k) {
+					lt_tmp = buf;
+				} else {
+					lt = buf;
+				}
+				return str;
+			}
+		}
+	}
+	
+	return str;
+}
+*/
+static char *lt;
 
 char *stok(char *str, const char *delim)
 {
-	static char *lt;
 	if (str != NULL) {
 		lt = str;
 	}
@@ -31,7 +93,15 @@ char *stok(char *str, const char *delim)
 	}
 	return str;
 }
+//char *tmp_lt = lt;save static
+//lt = tmp_lt;new static
+void new_static_char(char *str) {
+	lt = str;
+}
 
+char *save_static_char(void) {
+	return lt;
+}
 
 int sspn(char *str, const char *substr)
 {

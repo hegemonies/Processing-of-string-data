@@ -104,48 +104,104 @@ void check_input(int n)
 
 char *process(char *path, char *delim)
 {
+	int cc = 0;
+
+	char *buf_path = malloc(sizeof(char) * slen(path) + 2);
+	scpy(buf_path, path);
+	buf_path[slen(path)] = *delim;
+	buf_path[slen(path) + 1] = '\0';
+	printf("buf_path ::: %s\n", buf_path);
 	char *res = malloc(slen(path));//result str
 	char *tmp;
-	for (tmp = stok(path, delim); tmp; tmp = stok(NULL, delim)) {
-		//char *tmp = stok(path, delim);
-		char *ttmp = sstr(tmp, ":\\", slen(tmp));
+	for (tmp = stok(buf_path, delim); tmp; tmp = stok(NULL, delim)) {
+		if (slen(res)) {
+			scat(res, delim);
+		}
+		cc++;
+		printf("%s\n", tmp);
+		char *buf = malloc(sizeof(char) *slen(tmp) + 2);
+		scpy(buf, tmp);
+		buf[slen(buf)] = '\\';
+		buf[slen(buf) + 1] = 0;
+		printf("buf : %s\n", buf);
+		char *ttmp = sstr(buf, ":\\", slen(buf));
 		if (ttmp) {//windows
-			int n = ttmp - tmp;
-			char *tr = malloc(sizeof(char) * (slen(tmp) - 1) + 11);
+			int n = ttmp - buf;
+			printf("n == %d\n", n);
+			//printf("tmp len: %d\n", slen(tmp));
+			char *tr = malloc(sizeof(char) * (slen(buf) + 11));
+			//printf("%d\n", slen(tr));
 			scat(tr, "/cygdrive/");
+			printf("tr :: %s\n", tr);
 			if (n == 1) {
-				tr[10] = (char)tolower(tmp[0]);
-			} else {
-				tr[10] = (char)tolower(tmp[0]);
-				tr[11] = (char)tolower(tmp[1]);
+				tr[10] = (char)tolower(buf[0]);
+				printf("tr :: %s\n", tr);
+			} else if (n == 2) {
+				tr[10] = (char)tolower(buf[0]);
+				tr[11] = (char)tolower(buf[1]);
+				printf("tr :: %s\n", tr);
 			}
-			//scat(tr, (char)tolower(tmp[0]));
-			//scat(tr, "/");
 			char *tmp_t;
-			for (tmp_t = stok(ttmp + 2, "\\"); tmp_t; tmp_t = stok(NULL, "\\")) {
+			printf("tmp :: %s\n", tmp);
+			char *tmp_lt = save_static_char();
+	//char *tmp_lt = lt;
+	//printf("tmp_lt :: %s\nlt ::: %s\n", tmp_lt, lt);
+			for (tmp_t = stok(buf + 3, "\\"); tmp_t; tmp_t = stok(NULL, "\\")) {
+				printf("tmp_t :: %s\n", tmp_t);
+				printf("tr :: %s\n", tr);
 				scat(tr, "/");
+				printf("tr :: %s\n", tr);
 				scat(tr, tmp_t);
+				printf("tr :: %s\n", tr);
 			}
-			scat(tr, delim);
-			res = realloc(res, sizeof(res) + slen(tr));
+			new_static_char(tmp_lt);
+	//lt = tmp_lt;
+			printf("%s\n", tr);
+			res = realloc(res, slen(res) + slen(tr));
 			scat(res, tr);
-		} else {//linux
-			res = realloc(res, sizeof(res) + slen(tmp));
+			printf("res!!!: %s\n", res);
+		} 
+		else {//linux
+			res = realloc(res, slen(res) + slen(tmp));
 			scat(res, tmp);
 		}
+		
+		//printf("%s\n", tmp);
 	}
+	//printf("%s\n", tmp);
+	res[slen(res)] = 0;
+	printf("cc == %d\n", cc);
 	return res;
 }
 
-
 int main()
 {
+	/*
 	char *path = malloc(sizeof(char) * MAX_PATH);
 	char *delim = malloc(sizeof(char) * 3);
 
 	input(path, delim);
+	*/
 	//check_input(check(path, delim));
+	//char *res = process(path, delim);
+	//printf("end res: %s\n", res);
+	char path[] = "C:\\Windows\\system32+E:\\Distrib\\msoffice.exe+/home/alex/prog/lab4.c";
+	//char path[] = "E:\\Distrib\\msoffice.exe+/home/alex/prog/lab4.c";
+	//char path[] = "/home/alex/prog/lab4.c";
+	char delim[] = "+";
+
+	printf("delim: %s\npath: %s\n", delim, path);
+
 	char *res = process(path, delim);
-	printf("%s\n", res);
+	printf("end res: %s\n", res);
+
+
+	/*
+	char *word;
+	printf("\n%s\n\n", qq);
+	for (tmp = stok(buf_path, delim); tmp; tmp = stok(NULL, delim))
+	for (word = stok(qq, sep); word; word = stok(NULL, sep))
+		printf("Next word is \"%s\".\n", word);
+	*/
 	return 0;
 }

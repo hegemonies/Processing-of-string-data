@@ -1,6 +1,7 @@
 #ifndef STRINGS_H
 #define STRINGS_H
 
+
 int slen(char *str);
 
 char *stok(char *str, const char *delim);
@@ -14,5 +15,9 @@ char *scpy(char *des, const char *src);
 char *scat(char *des, char *src);
 
 char *sstr(const char *str1,  const char *str2, int slen);
+
+void new_static_char(char *str);
+
+char *save_static_char(void);
 
 #endif
