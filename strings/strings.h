@@ -11,7 +11,7 @@ int scmp(const char *mstr, const char *cpstr);
 
 char *scpy(char *des, const char *src);
 
-char *scat(char *des, const char *src);
+char *scat(char *des, char *src);
 
 char *sstr(const char *str1,  const char *str2, int slen);
 

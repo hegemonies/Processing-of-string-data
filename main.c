@@ -42,7 +42,7 @@ int check(char *path)
 	}
 	return 1;
 }
-*/
+
 int check(char *path, char *delim)
 {
 	char *str_tmp;
@@ -100,6 +100,43 @@ void check_input(int n)
 			break;
 	}
 }
+*/
+
+char *process(char *path, char *delim)
+{
+	char *res = malloc(slen(path));//result str
+	char *tmp;
+	for (tmp = stok(path, delim); tmp; tmp = stok(NULL, delim)) {
+		//char *tmp = stok(path, delim);
+		char *ttmp = sstr(tmp, ":\\", slen(tmp));
+		if (ttmp) {//windows
+			int n = ttmp - tmp;
+			char *tr = malloc(sizeof(char) * (slen(tmp) - 1) + 11);
+			scat(tr, "/cygdrive/");
+			if (n == 1) {
+				tr[10] = (char)tolower(tmp[0]);
+			} else {
+				tr[10] = (char)tolower(tmp[0]);
+				tr[11] = (char)tolower(tmp[1]);
+			}
+			//scat(tr, (char)tolower(tmp[0]));
+			//scat(tr, "/");
+			char *tmp_t;
+			for (tmp_t = stok(ttmp + 2, "\\"); tmp_t; tmp_t = stok(NULL, "\\")) {
+				scat(tr, "/");
+				scat(tr, tmp_t);
+			}
+			scat(tr, delim);
+			res = realloc(res, sizeof(res) + slen(tr));
+			scat(res, tr);
+		} else {//linux
+			res = realloc(res, sizeof(res) + slen(tmp));
+			scat(res, tmp);
+		}
+	}
+	return res;
+}
+
 
 int main()
 {
@@ -108,7 +145,7 @@ int main()
 
 	input(path, delim);
 	//check_input(check(path, delim));
-	char *ch = sstr(path, ":\\", slen(path));
-	printf("%s\n", ch);
+	char *res = process(path, delim);
+	printf("%s\n", res);
 	return 0;
 }

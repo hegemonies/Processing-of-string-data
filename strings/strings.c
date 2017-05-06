@@ -74,7 +74,7 @@ char *scpy(char *des, const char *src)
 	return des;
 }
 
-char *scat(char *des, const char *src)
+char *scat(char *des, char *src)
 {
 	int j = slen(des);
 	for (int i = 0; src[i] != 0; i++) {
