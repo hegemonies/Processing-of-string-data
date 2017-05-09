@@ -12,68 +12,7 @@ int slen(char *str)
 	}
 	return count++;
 }
-/*
-char *stok(char *str, const char *delim)
-{
-	static const char *lt;
-	static char *lt_tmp = lt;
-	if (str != NULL) {
-		lt = str;
-		if (lt_tmp == NULL) {
-			lt_tmp = lt;
-		}
-	}
-	
-	if (sspn(lt_tmp, str)) {
-		for (int i = 0; lt_tmp[i] != 0; i++) {
-			for (int j = 0; delim[j] != 0; j++) {
-				if (lt_tmp[i] == delim[j]) {
-					lt_tmp[i] = 0;
-					str = lt_tmp;
-					lt_tmp = lt_tmp + i + 1;
-					return str;
-				}
-			}
-		}
-	} else {
-		for (int i = 0; lt[i] != 0; i++) {
-			for (int j = 0; delim[j] != 0; j++) {
-				if (lt[i] == delim[j]) {
-					lt[i] = 0;
-					str = lt;
-					lt = lt + i + 1;
-					return str;
-				}
-			}
-		}
-	}
-	
-	char *buf;
-	int k = sspn(lt_tmp, str);
-	if (k) {
-		buf = lt_tmp;
-	} else {
-		buf = lt;
-	}
-	for (int i = 0; lt[i] != 0; i++) {
-		for (int j = 0; delim[j] != 0; j++) {
-			if (buf[i] == delim[j]) {
-				buf[i] = 0;
-				str = buf;
-				buf = buf + i + 1;
-				if (k) {
-					lt_tmp = buf;
-				} else {
-					lt = buf;
-				}
-				return str;
-			}
-		}
-	}
-	
-	return str;
-}
-*/
+
 static char *lt;
 
 char *stok(char *str, const char *delim)
@@ -93,8 +32,7 @@ char *stok(char *str, const char *delim)
 	}
 	return str;
 }
-//char *tmp_lt = lt;save static
-//lt = tmp_lt;new static
+
 void new_static_char(char *str) {
 	lt = str;
 }
@@ -154,7 +92,7 @@ char *scat(char *des, char *src)
 	des[j] = 0;
 	return des;
 }
-/*
+
 char *sstr(char *string1, const char *string2)
 {
 	char *strptr = string1;
@@ -179,73 +117,4 @@ char *sstr(char *string1, const char *string2)
 	} else {
 		return NULL;
 	}
-}
-*/
-
-char *sstr(const char *str1,  const char *str2, int slen){
-    unsigned char max_len = 140;
-    if ( !*str2 )
-        return((char *)str1);
-    //Очистка массивов
-    unsigned char index_header_first[256];
-    unsigned char index_header_end[256];
-    unsigned char last_char[256];
-    unsigned char sorted_index[256];
-    memset(index_header_first,0x00,sizeof(unsigned char)*256);
-    memset(index_header_end,0x00,sizeof(unsigned char)*256);
-    memset(last_char,0x00,sizeof(unsigned char)*256);
-    memset(sorted_index,0x00,sizeof(unsigned char)*256);
-    //Этап 1.
-    char *cp2 = (char*)str2;
-    unsigned char v;
-    unsigned int len =0;
-    unsigned char current_ind = 1;
-    while((v=*cp2) && (len<max_len)){
-        if(index_header_first[v] == 0){
-            index_header_first[v] = current_ind;
-            index_header_end[v] = current_ind;
-            sorted_index[current_ind] = len;
-        }
-        else{
-            unsigned char last_ind = index_header_end[v];
-            last_char[current_ind] = last_ind;
-            index_header_end[v] = current_ind;
-            sorted_index[current_ind] = len;
-        }
-        current_ind++;
-        len++;
-        cp2++;
-    }
-    if(len > slen){
-        return NULL;
-    }
-    //Этап 2.
-    unsigned char *s1, *s2;
-    //Начинаем проверку с элемента S+pl-1
-    unsigned char *cp = (unsigned char *) str1+(len-1);
-    unsigned char *cp_end= cp+slen;
-    while (cp<cp_end){
-        unsigned char ind = *cp;
-        //Если выбранный элемент есть в строке P
-        if( (ind = index_header_end[ind]) ) {
-            do{
-                //Тогда проверяем все возможные варианты с участием этой буквы
-                unsigned char pos_in_len = sorted_index[ind];
-                s1 = cp - pos_in_len;
-                if((char*)s1>=str1)
-                {
-                    //Сравниваем строки
-                    s2 = (unsigned char*)str2;
-                    while ( *s2 && !(*s1^*s2) )
-                        s1++, s2++;
-                    if (!*s2)
-                        return (char*)(cp-pos_in_len);
-                }
-            }
-            while( (ind = last_char[ind]) );
-        }
-        //Прыгаем вперёд на pl
-        cp+=len;
-    }
-    return(NULL);
 }

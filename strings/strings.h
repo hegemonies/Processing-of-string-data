@@ -14,7 +14,7 @@ char *scpy(char *des, const char *src);
 
 char *scat(char *des, char *src);
 
-char *sstr(const char *str1,  const char *str2, int slen);
+char *sstr(char *str1,  const char *str2);
 
 void new_static_char(char *str);
 
