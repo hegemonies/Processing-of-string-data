@@ -51,7 +51,7 @@ int sspn(char *str, const char *substr)
 			return count;
 		}
 	}
-	return 0;
+	return count;
 }
 
 int scmp(const char *str, const char *strc)
