@@ -45,10 +45,10 @@ int sspn(char *str, const char *substr)
 {
 	int count = 0;
 	for (int i = 0; str[i] != 0; i++) {
-		if (str[i] == substr[i]) {
-			count++;
-		} else {
-			return count;
+		for (int j = 0; substr[j]; j++) {
+			if (str[i] == substr[j]) {
+				count++;
+			}
 		}
 	}
 	return count;

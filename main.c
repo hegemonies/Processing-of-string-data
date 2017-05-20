@@ -20,50 +20,64 @@ int check(char *path, char *delim)
 	scat(buf_path, path);
 	buf_path[slen(buf_path)] = *delim;
 	buf_path[slen(buf_path)] = '\0';
+	printf("buf_path :: %s\n", buf_path);
 	char *str_tmp;
 	for (str_tmp = stok(buf_path, delim); str_tmp; str_tmp = stok(NULL, delim)) {
+		printf("%s\n", str_tmp);
+		printf("зашли :: 56\n");
 		if (slen(path) >= MAX_PATH) {//len?
-
+			printf("зашли :: 57\n");
 			return 3;
 		}
-
-		char *th_wi_let = sstr(path, ":\\"); //windows?
-		char *th_wi_nlet = sstr(path, "\\");
+		printf("зашли :: 60\n");
+		char *th_wi_let = sstr(str_tmp, ":\\"); //windows?
+		char *th_wi_nlet = sstr(str_tmp, "\\");
+		//printf("%s\n", ch);
 
 		if (th_wi_nlet) {
 			if (!isalpha(str_tmp[0]) && str_tmp[0] != '\\') {
+				printf("39\n");
 				return 1;
 			}
-			if (sspn(str_tmp, "*?<\">:,/|")) {
-				return 1;
-			}
-		}
-		
-		if ((th_wi_let - path == 1) || (th_wi_let - path == 2)) {
-
-			if (sspn(path, "*?<\">:,/|")) {
+			if (sspn(str_tmp, "*?<\">,/|")) {
 				printf("зашли :: 68\n");
 				return 1;
 			}
-			if (th_wi_let - path == 1) {
-				if (str_tmp[0] > 90) {
+		}
 		
-					return 1;
-				}
-			} else if (th_wi_let - path == 2) {
-				if (str_tmp[0] > 90 || str_tmp[1] > 90) {//проверка на заглавные буквы
-		
+		if ((th_wi_let - str_tmp == 1) || (th_wi_let - str_tmp == 2)) {
+			printf("зашли :: 66\n");
+			if (isalpha(str_tmp[0]) && str_tmp[1] == ':') {
+				if (sspn(str_tmp, "*?<\">,/|")) {
+					printf("зашли :: 38\n");
 					return 1;
 				}
 			}
-		} else if (((th_wi_let = sstr(path, "/")) - path) == 0) {//linux?
-
-			if (sspn(path, "*?:\\<\">,|")) {
-	
+			if (sspn(str_tmp, "*?<\">,/|")) {
+				printf("зашли :: 68\n");
+				return 1;
+			}
+			//printf("%s\n", th_wi_let = sstr(path, ":"));
+			if (th_wi_let - str_tmp == 1) {
+				if (str_tmp[0] > 90) {
+					printf("зашли :: 74\n");
+					return 1;
+				}
+			} else if (th_wi_let - str_tmp == 2) {
+				if (str_tmp[0] > 90 || str_tmp[1] > 90) {//проверка на заглавные буквы
+					printf("зашли :: 78\n");
+					return 1;
+				}
+			}
+		} else if (((th_wi_let = sstr(str_tmp, "/")) - str_tmp) == 0) {//linux?
+			printf("зашли :: 88\n");
+			if (sspn(str_tmp, "*?:\\<\">,|")) {
+				printf("зашли :: 90\n");
 				return 2;
 			}
 		}
-	}
+	}	
+	printf("зашли :: 95\n");
 	return 0;
 }
 
@@ -151,10 +165,11 @@ int main()
 
 	input(path, delim);
 	
-	if (!check(path, delim)) {
+	int t = check(path, delim);
+	if (!t) {
 		printf("%s\n", process(path, delim));
 	} else {
-		output(check(path, delim));
+		output(t);
 	}
 
 	return 0;
