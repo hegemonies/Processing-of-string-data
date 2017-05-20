@@ -20,56 +20,50 @@ int check(char *path, char *delim)
 	scat(buf_path, path);
 	buf_path[slen(buf_path)] = *delim;
 	buf_path[slen(buf_path)] = '\0';
-	printf("buf_path :: %s\n", buf_path);
 	char *str_tmp;
 	for (str_tmp = stok(buf_path, delim); str_tmp; str_tmp = stok(NULL, delim)) {
-		printf("%s\n", str_tmp);
-		printf("зашли :: 56\n");
 		if (slen(path) >= MAX_PATH) {//len?
-			printf("зашли :: 57\n");
+
 			return 3;
 		}
-		printf("зашли :: 60\n");
+
 		char *th_wi_let = sstr(path, ":\\"); //windows?
 		char *th_wi_nlet = sstr(path, "\\");
-		//printf("%s\n", ch);
+
 		if (th_wi_nlet) {
-			if (!isalpha(path[0]) && path[0] != '\\') {
+			if (!isalpha(str_tmp[0]) && str_tmp[0] != '\\') {
 				return 1;
 			}
-			if (sspn(path, "*?<\">:,/|")) {
-				//printf("зашли :: 68\n");
+			if (sspn(str_tmp, "*?<\">:,/|")) {
 				return 1;
 			}
 		}
 		
 		if ((th_wi_let - path == 1) || (th_wi_let - path == 2)) {
-			printf("зашли :: 66\n");
+
 			if (sspn(path, "*?<\">:,/|")) {
 				printf("зашли :: 68\n");
 				return 1;
 			}
-			//printf("%s\n", th_wi_let = sstr(path, ":"));
 			if (th_wi_let - path == 1) {
 				if (str_tmp[0] > 90) {
-					printf("зашли :: 74\n");
+		
 					return 1;
 				}
 			} else if (th_wi_let - path == 2) {
 				if (str_tmp[0] > 90 || str_tmp[1] > 90) {//проверка на заглавные буквы
-					printf("зашли :: 78\n");
+		
 					return 1;
 				}
 			}
 		} else if (((th_wi_let = sstr(path, "/")) - path) == 0) {//linux?
-			printf("зашли :: 88\n");
+
 			if (sspn(path, "*?:\\<\">,|")) {
-				printf("зашли :: 90\n");
+	
 				return 2;
 			}
 		}
-	}	
-	printf("зашли :: 95\n");
+	}
 	return 0;
 }
 
@@ -152,26 +146,16 @@ char *process(char *path, char *delim)
 
 int main()
 {
-	/*
 	char *path = malloc(sizeof(char) * MAX_PATH);
-	char *delim = malloc(sizeof(char) * 3);
+	char *delim = malloc(sizeof(char) * 1);
 
 	input(path, delim);
-	*/
-	char path[] = "D:\\Windows\\system32+E:\\Distrib\\msoffice.exe+/home/alex/prog/lab4.c";
-	//char path[] = "\\Distrib\\msoffice.exe+/home/alex/prog/lab4.c";
-	//char path[] = "/home/alex/prog/lab4.c";
-	//char path[] = "/home/alex/prog/lab4.c";
-	char delim[] = "+";
+	
 	if (!check(path, delim)) {
 		printf("%s\n", process(path, delim));
 	} else {
 		output(check(path, delim));
 	}
-	//printf("check = %d\n", check(path, delim));
-	//printf("delim: %s\npath: %s\n", delim, path);
-	
-	//char *res = process(path, delim);
 
 	return 0;
 }
